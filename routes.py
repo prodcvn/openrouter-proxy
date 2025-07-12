@@ -205,6 +205,7 @@ async def proxy_with_httpx(
 async def health_check():
     """Health check endpoint."""
     return {"status": "ok"}
+    
 from fastapi import Body
 
 @router.post("/aistudio")
