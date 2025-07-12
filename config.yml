@@ -1,0 +1,42 @@
+# OpenRouter Proxy Configuration
+
+# Server settings
+server:
+  host: "0.0.0.0"  # Default interface
+  port: 5555  # Default port
+  access_key: "your_local_access_key_here"  # Key for accessing the local proxy
+  log_level: "INFO"  # Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  http_log_level: "INFO"  # HTTP access logs level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+
+# OpenRouter API keys
+openrouter:
+  keys:
+    - "sk-or-v1-your-first-api-key"
+    - "sk-or-v1-your-second-api-key"
+    - "sk-or-v1-your-third-api-key"
+
+  # Key selection strategy: "round-robin" (default), "first" or "random".
+  key_selection_strategy: "round-robin"
+  # List of key selection options:
+  #   "same": Always use the last used key as long as it is possible.
+  key_selection_opts: []
+
+  # OpenRouter API base URL
+  base_url: "https://openrouter.ai/api/v1"
+
+  # Public endpoints that don't require authentication
+  public_endpoints:
+    - "/api/v1/models"
+
+  # Time in seconds to temporarily disable a key when rate limit is reached by default
+  rate_limit_cooldown: 14400  # 4 hours
+  free_only: false # try to show only free models
+  # Google sometimes returns 429 RESOURCE_EXHAUSTED errors repeatedly, which can cause Roo Code to stop.
+  # This prevents repeated failures by introducing a delay before retrying.
+  # google_rate_delay: 10 # in sec
+  google_rate_delay: 0
+
+# Proxy settings for outgoing requests to OpenRouter
+requestProxy:
+  enabled: false  # Set to true to enable proxy
+  url: "socks5://username:password@example.com:1080"  # Proxy URL with optional credentials embedded
