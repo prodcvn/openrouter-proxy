@@ -11,6 +11,19 @@ from config import config, logger
 from routes import router, lifespan
 from utils import get_local_ip
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI(...)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # или ["https://www.janitorai.com"] для ограничения
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Create FastAPI app
 app = FastAPI(
     title="OpenRouter API Proxy",
