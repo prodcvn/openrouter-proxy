@@ -213,3 +213,14 @@ async def proxy_aistudio(request: Request, body: dict = Body(...), authorization
     # Принудительно добавляем тело запроса
     request._body = json.dumps(body).encode("utf-8")
     return await proxy_endpoint(request, path="")
+
+from fastapi.responses import JSONResponse
+
+@router.options("/aistudio")
+async def aistudio_options():
+    return JSONResponse(content={"status": "ok"})
+
+@router.post("/aistudio")
+async def aistudio_post(request: Request):
+    body = await request.json()
+    return JSONResponse(content={"echo": body})
