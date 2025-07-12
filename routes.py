@@ -224,3 +224,23 @@ async def aistudio_options():
 async def aistudio_post(request: Request):
     body = await request.json()
     return JSONResponse(content={"echo": body})
+
+@router.post("/aistudio")
+async def aistudio_post(request: Request):
+    request_data = await request.json()
+    # Проксируем этот запрос к /api/v1/chat/completions
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer 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",
+                "Content-Type": "application/json"
+            },
+            json=request_data
+        )
+    return Response(
+        content=response.content,
+        status_code=response.status_code,
+        media_type="application/json"
+    )
+
